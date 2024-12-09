@@ -1,0 +1,17 @@
+{
+  "name": "portfolio-v2-backend",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node src/index.mjs",
+    "devStart": "nodemon src/index.mjs"
+  },
+  "author": "Ali Hussein",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "type": "module"
+}
