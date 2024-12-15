@@ -1,9 +1,11 @@
 import { Router } from 'express'
-import { getProjects, createProject, updateProjectById, deleteProjectById } from '../handlers/projects'
+import { getProjects,getProjectById, createProject, updateProjectById, deleteProjectById } from '../controllers/projects.controller'
 
 const router = Router()
 
 router.get('/', getProjects)
+
+router.get('/:id', getProjectById)
 
 router.post('/', createProject)
 
@@ -11,5 +13,5 @@ router.put('/:id', updateProjectById)
 
 router.delete('/:id', deleteProjectById)
 
-export default router;
+export const ProjectsRouter = router;
 
