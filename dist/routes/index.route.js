@@ -6,7 +6,7 @@ const projects_route_1 = require("./projects.route");
 const messages_route_1 = require("./messages.route");
 const skills_route_1 = require("./skills.route");
 const router = (0, express_1.Router)();
-router.use('/auth');
+// router.use('/auth', )
 router.use('/projects', projects_route_1.ProjectsRouter);
 router.use('/messages', messages_route_1.MessagesRouter);
 router.use('/skills', skills_route_1.SkillsRouter);
