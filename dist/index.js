@@ -27,12 +27,12 @@ app.use(jwt_config_1.default.initialize());
 app.use('/api', index_route_1.IndexRouter);
 // Database & API Connection
 // Running Server
-app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
-});
 mongoose_1.default.connect(DATABASE_URL)
-    .then(() => {
+.then(() => {
     console.log('Connected to database');
+    app.listen(PORT, () => {
+        console.log(`server running on http://localhost:${PORT}`);
+    });
 })
     .catch((error) => console.error(`Error ${error}`));
 exports.default = app;
