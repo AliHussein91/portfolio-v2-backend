@@ -11,5 +11,5 @@ router.get('/', uploads_controller_1.getImages);
 // Upload endpoint
 router.post('/', uploads_controller_1.uploadImage);
 // Mark image as in use
-router.post('/:filename', uploads_controller_1.markInUse);
+router.put('/:filename', uploads_controller_1.markInUse);
 exports.UploadsRouter = router;

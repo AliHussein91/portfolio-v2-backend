@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = require("../model/user.model");
 const passport_1 = __importDefault(require("passport"));
 const passport_jwt_1 = require("passport-jwt");
+const blacklist_model_1 = require("../model/blacklist.model");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -24,6 +25,13 @@ const jwtOptions = {
 };
 passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (payload, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const token = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
+        if (token) {
+            const blacklisted = yield blacklist_model_1.Blacklist.findOne({ token });
+            if (blacklisted) {
+                return done(null, false);
+            }
+        }
         const user = yield user_model_1.User.findById(payload.sub);
         if (user) {
             return done(null, user);

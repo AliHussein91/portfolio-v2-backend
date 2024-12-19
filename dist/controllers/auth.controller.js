@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.registerUser = void 0;
+exports.logoutUser = exports.loginUser = exports.registerUser = void 0;
 const user_model_1 = require("../model/user.model");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const blacklist_model_1 = require("../model/blacklist.model");
 dotenv_1.default.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const registerUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,3 +45,22 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.loginUser = loginUser;
+const logoutUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(' ')[1];
+    if (!token) {
+        res.status(401).json({ message: 'No token provided' });
+        return;
+    }
+    else {
+        try {
+            const blacklist = new blacklist_model_1.Blacklist({ token });
+            yield blacklist.save();
+            res.status(200).json({ message: 'Logged out successfully' });
+        }
+        catch (error) {
+            res.status(400).json({ error: error, message: 'Error logging out' });
+        }
+    }
+});
+exports.logoutUser = logoutUser;
