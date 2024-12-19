@@ -12,14 +12,5 @@ const skillSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: () => new Date()
-    },
-    updatedAt: {
-        type: Date,
-        default: () => new Date()
-    },
-});
+}, { timestamps: true });
 exports.Skill = (0, mongoose_1.model)('Skill', skillSchema);

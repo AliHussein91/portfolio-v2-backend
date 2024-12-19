@@ -26,14 +26,5 @@ const projectSchema = new mongoose_1.Schema({
         required: true
     },
     link: String,
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: () => new Date()
-    },
-    updatedAt: {
-        type: Date,
-        default: () => new Date()
-    },
-});
+}, { timestamps: true });
 exports.Project = (0, mongoose_1.model)('Project', projectSchema);

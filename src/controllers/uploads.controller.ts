@@ -3,30 +3,31 @@ import { ImageMetadata } from "../model/imagesMetaData.model";
 import { MongooseError } from "mongoose";
 import { upload } from '../utils/upload';
 
-export const uploadImage = async (req: Request, res: Response, next: NextFunction) => {
-    upload.single('image')(req, res, async (err) => {
-        if (err) {
-            return res.status(400).json({ "message": err.message });
-        }
+export const uploadImage = async (request: Request, res: Response, next: NextFunction) => {
+    upload.single('image')
+        (request, res, async (error) => {
+            if (error) {
+                return res.status(400).json({ "message": error.message });
+            }
 
-        if (!req.file) {
-            return res.status(400).json({ "message": 'No file uploaded' });
-        }
+            if (!request.file) {
+                return res.status(400).json({ "message": 'No file uploaded' });
+            }
 
-        try {
-            const imageMetadata = new ImageMetadata({
-                filename: req.file.filename,
-                isInUse: true
-            });
+            try {
+                const imageMetadata = new ImageMetadata({
+                    filename: request.file.filename,
+                    isInUse: true
+                });
 
-            await imageMetadata.save();
+                await imageMetadata.save();
 
-            const fileUrl = `http://localhost:3000/public/imgs/${req.file.filename}`;
-            res.json({ fileUrl });
-        } catch (error) {
-            next(error);
-        }
-    });
+                const fileUrl = `http://localhost:3000/public/imgs/${request.file.filename}`;
+                res.json({ fileUrl });
+            } catch (error) {
+                next(error);
+            }
+        });
 };
 
 export const markInUse = async (request: Request, response: Response) => {

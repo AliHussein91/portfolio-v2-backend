@@ -5,9 +5,14 @@ const express_1 = require("express");
 const projects_route_1 = require("./projects.route");
 const messages_route_1 = require("./messages.route");
 const skills_route_1 = require("./skills.route");
+const auth_route_1 = require("./auth.route");
+const users_route_1 = require("./users.route");
+const uploads_route_1 = require("./uploads.route");
 const router = (0, express_1.Router)();
-// router.use('/auth', )
+router.use('/auth', auth_route_1.AuthRouter);
+router.use('/users', users_route_1.UsersRouter);
 router.use('/projects', projects_route_1.ProjectsRouter);
 router.use('/messages', messages_route_1.MessagesRouter);
 router.use('/skills', skills_route_1.SkillsRouter);
+router.use('/uploads', uploads_route_1.UploadsRouter);
 exports.IndexRouter = router;

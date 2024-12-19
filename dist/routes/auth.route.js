@@ -2,7 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthRouter = void 0;
 const express_1 = require("express");
+const auth_controller_1 = require("../controllers/auth.controller");
+const authentication_1 = require("../utils/authentication");
 const router = (0, express_1.Router)();
-router.post('/');
-router.get('/logout');
+// Register a new user
+router.post('/register', authentication_1.authenticate, auth_controller_1.registerUser);
+// Login and generate JWT
+router.post('/login', auth_controller_1.loginUser);
 exports.AuthRouter = router;

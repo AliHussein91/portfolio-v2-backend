@@ -1,4 +1,5 @@
 import express from 'express';
+import helmet from "helmet";
 import cors from 'cors'
 import mongoose from 'mongoose'
 import { IndexRouter } from './routes/index.route'
@@ -8,6 +9,7 @@ import passport from './config/jwt.config';
 
 dotenv.config()
 const app = express();
+app.use(helmet())
 
 
 const DATABASE_URL = process.env.DATABASE_URL!
