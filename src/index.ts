@@ -12,7 +12,7 @@ const app = express();
 
 
 const DATABASE_URL = process.env.DATABASE_URL!
-const PORT = process.env.Port || 3000;
+const PORT = process.env.Port || 8080;
 
 let corsOptions = {
     origin: true,
