@@ -6,7 +6,8 @@
     "test": "jest",
     "build": "tsc --build",
     "start": "node ./dist/index.js",
-    "start:dev": "nodemon ./src/index.ts"
+    "start:dev": "nodemon ./src/index.ts",
+    "vercel-build": "echo hello"
   },
   "author": "Ali Hussein",
   "license": "ISC",

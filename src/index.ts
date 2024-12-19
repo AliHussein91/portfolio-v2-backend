@@ -37,3 +37,5 @@ mongoose.connect(DATABASE_URL)
 		});
 	})
 	.catch((error) => console.error(`Error ${error}`))
+
+export default app
