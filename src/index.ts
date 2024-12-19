@@ -9,18 +9,19 @@ import passport from './config/jwt.config';
 
 dotenv.config()
 const app = express();
-app.use(helmet())
 
 
 const DATABASE_URL = process.env.DATABASE_URL!
 const PORT = process.env.Port || 3000;
 
 let corsOptions = {
-	origin: ['http://localhost:4200', 'http:/localhost'],
+    origin: true,
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 };
 
 // Middleware
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(passport.initialize());
 
