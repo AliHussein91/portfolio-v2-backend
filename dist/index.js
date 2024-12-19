@@ -14,7 +14,7 @@ const jwt_config_1 = __importDefault(require("./config/jwt.config"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const DATABASE_URL = process.env.DATABASE_URL;
-const PORT = process.env.Port || 3000;
+const PORT = process.env.Port || 8080;
 let corsOptions = {
     origin: true,
     optionsSuccessStatus: 200 // Some legacy browsers choke on 204
