@@ -5,7 +5,7 @@ import { logoutUser } from "../controllers/auth.controller";
 
 const router = Router()
 
-// Register a new user
+
 router.post('/register', authenticate, registerUser);
 
 // Login and generate JWT
