@@ -1,6 +1,7 @@
 import { User } from '../model/user.model';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from "passport-jwt";
+import { Blacklist } from '../model/blacklist.model';
 import dotenv from 'dotenv'
 
 dotenv.config()
@@ -14,6 +15,14 @@ const jwtOptions: StrategyOptions = {
 
 passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
+    if (token) {
+      const blacklisted = await Blacklist.findOne({ token });
+      if (blacklisted) {
+        return done(null, false);
+      }
+    }
+
     const user = await User.findById(payload.sub);
     if (user) {
       return done(null, user);
