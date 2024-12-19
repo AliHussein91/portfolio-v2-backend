@@ -15,16 +15,7 @@ const messageSchema = new Schema({
     message: {
         type: String,
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: () => new Date()
-    },
-    updatedAt: {
-        type: Date,
-        default: () => new Date()
-    },
-})
+    }
+}, { timestamps: true })
 
 export const Message =  model('Message', messageSchema)

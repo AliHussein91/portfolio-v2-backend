@@ -25,15 +25,6 @@ const projectSchema = new Schema({
         required: true
     },
     link: String,
-    createdAt: {
-        type: Date,
-        immutable: true,
-        default: () => new Date()
-    },
-    updatedAt: {
-        type: Date,
-        default: () => new Date()
-    },
-})
+}, { timestamps: true })
 
 export const Project = model('Project', projectSchema)

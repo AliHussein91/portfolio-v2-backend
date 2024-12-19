@@ -3,6 +3,8 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import { IndexRouter } from './routes/index.route'
 import dotenv from 'dotenv'
+import bodyParser from 'body-parser';
+import passport from './config/jwt.config';
 
 dotenv.config()
 const app = express();
@@ -17,7 +19,8 @@ let corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions))
-app.use(express.json());
+app.use(bodyParser.json());
+app.use(passport.initialize());
 
 // Routes
 app.use('/api', IndexRouter)
