@@ -14,7 +14,7 @@ router.get('/', getImages);
 router.post('/', uploadImage);
 
 // Mark image as in use
-router.post('/:filename', markInUse);
+router.put('/:filename', markInUse);
 
 
 export const UploadsRouter = router;

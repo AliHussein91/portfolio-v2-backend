@@ -3,6 +3,7 @@ import { User } from "../model/user.model";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv'
+import { Blacklist } from '../model/blacklist.model';
 
 dotenv.config()
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!
@@ -27,5 +28,21 @@ export const loginUser = async (req: Request, res: Response) => {
         res.json({ token });
     } else {
         res.status(401).json({message: 'Invalid credentials'});
+    }
+}
+
+export const logoutUser = async (req: Request, res: Response) => {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+        res.status(401).json({ message: 'No token provided' });
+        return;
+    } else {
+        try {
+            const blacklist = new Blacklist({ token });
+            await blacklist.save();
+            res.status(200).json({ message: 'Logged out successfully' });
+        } catch (error) {
+            res.status(400).json({ error: error, message: 'Error logging out' });            
+        }
     }
 }
