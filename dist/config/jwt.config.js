@@ -25,6 +25,10 @@ const jwtOptions = {
 };
 passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (payload, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        const user = yield user_model_1.User.findById(payload.sub);
+        if (!user) {
+            return done(null, false);
+        }
         const token = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
         if (token) {
             const blacklisted = yield blacklist_model_1.Blacklist.findOne({ token });
@@ -32,13 +36,7 @@ passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (payload, done) =
                 return done(null, false);
             }
         }
-        const user = yield user_model_1.User.findById(payload.sub);
-        if (user) {
-            return done(null, user);
-        }
-        else {
-            return done(null, false);
-        }
+        return done(null, user);
     }
     catch (error) {
         return done(error, false);
