@@ -30,7 +30,7 @@ passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (payload, done) =
             return done(null, false);
         }
         // Extract the token from the request
-        const token = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()(this);
+        const token = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
         if (token) {
             const blacklisted = yield blacklist_model_1.Blacklist.findOne({ token });
             if (blacklisted) {

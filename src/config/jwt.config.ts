@@ -20,7 +20,7 @@ passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
     }
 
     // Extract the token from the request
-    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(this);
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
     if (token) {
       const blacklisted = await Blacklist.findOne({ token });
       if (blacklisted) {
