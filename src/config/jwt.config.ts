@@ -2,9 +2,9 @@ import { User } from '../model/user.model';
 import passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from "passport-jwt";
 import { Blacklist } from '../model/blacklist.model';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 
 const jwtOptions: StrategyOptions = {
@@ -19,7 +19,8 @@ passport.use(new JwtStrategy(jwtOptions, async (payload, done) => {
       return done(null, false);
     }
 
-    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
+    // Extract the token from the request
+    const token = ExtractJwt.fromAuthHeaderAsBearerToken()(this);
     if (token) {
       const blacklisted = await Blacklist.findOne({ token });
       if (blacklisted) {
