@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const user_model_1 = require("../model/user.model");
 const passport_1 = __importDefault(require("passport"));
 const passport_jwt_1 = require("passport-jwt");
-const blacklist_model_1 = require("../model/blacklist.model");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
@@ -30,13 +29,13 @@ passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (payload, done) =
             return done(null, false);
         }
         // Extract the token from the request
-        const token = passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
-        if (token) {
-            const blacklisted = yield blacklist_model_1.Blacklist.findOne({ token });
-            if (blacklisted) {
-                return done(null, false);
-            }
-        }
+        // const token = ExtractJwt.fromAuthHeaderAsBearerToken()(payload);
+        // if (token) {
+        //   const blacklisted = await Blacklist.findOne({ token });
+        //   if (blacklisted) {
+        //     return done(null, false);
+        //   }
+        // }
         return done(null, user);
     }
     catch (error) {
