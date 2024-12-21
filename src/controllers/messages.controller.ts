@@ -42,15 +42,14 @@ export const createMessage = async (request: Request, response: Response) => {
     }
 }
 
-export const updateMessageById = async (request: Request, response: Response) => {
+export const deleteMessageById = async (request: Request, response: Response) => {
     try {
         const { id } = request.params
-        const message = await Message.findByIdAndUpdate(id, request.body, { new: true })
+        const message = await Message.findByIdAndDelete(id)
         if (!message) {
             response.status(404).json({ message: "Message not found" })
         } else {
-            const updatedMessage = await Message.findById(id)
-            response.status(200).json(updatedMessage)
+            response.status(200).json({ message: "Message deleted successfuly" })
         }
     } catch (error) {
         if (error instanceof MongooseError) {
@@ -60,15 +59,31 @@ export const updateMessageById = async (request: Request, response: Response) =>
         }
     }
 }
-
-export const deleteMessageById = async (request: Request, response: Response) => {
+export const markAsRead = async (request: Request, response: Response) => {
     try {
         const { id } = request.params
-        const message = await Message.findByIdAndDelete(id)
+        const message = await Message.findByIdAndUpdate(id, { read: true })
         if (!message) {
             response.status(404).json({ message: "Message not found" })
         } else {
-            response.status(200).json({ message: "Message deleted successfuly" })
+            response.status(200).json(message)
+        }
+    } catch (error) {
+        if (error instanceof MongooseError) {
+            response.status(500).json({ message: error.message })
+        } else {
+            response.status(500).json(error)
+        }
+    }
+}
+export const markAsUnread = async (request: Request, response: Response) => {
+    try {
+        const { id } = request.params
+        const message = await Message.findByIdAndUpdate(id, { read: false })
+        if (!message) {
+            response.status(404).json({ message: "Message not found" })
+        } else {
+            response.status(200).json(message)
         }
     } catch (error) {
         if (error instanceof MongooseError) {

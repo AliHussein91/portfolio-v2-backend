@@ -9,6 +9,7 @@ router.post('/', messages_controller_1.createMessage);
 router.use(authentication_1.authenticate);
 router.get('/', messages_controller_1.getMessages);
 router.get('/:id', messages_controller_1.getMessageById);
-router.put('/:id', messages_controller_1.updateMessageById);
+router.put('/read/:id', messages_controller_1.markAsRead);
+router.put('/unread/:id', messages_controller_1.markAsUnread);
 router.delete('/:id', messages_controller_1.deleteMessageById);
 exports.MessagesRouter = router;

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteMessageById = exports.updateMessageById = exports.createMessage = exports.getMessageById = exports.getMessages = void 0;
+exports.markAsUnread = exports.markAsRead = exports.deleteMessageById = exports.createMessage = exports.getMessageById = exports.getMessages = void 0;
 const message_model_1 = require("../model/message.model");
 const mongoose_1 = require("mongoose");
 const getMessages = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
@@ -58,28 +58,6 @@ const createMessage = (request, response) => __awaiter(void 0, void 0, void 0, f
     }
 });
 exports.createMessage = createMessage;
-const updateMessageById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { id } = request.params;
-        const message = yield message_model_1.Message.findByIdAndUpdate(id, request.body, { new: true });
-        if (!message) {
-            response.status(404).json({ message: "Message not found" });
-        }
-        else {
-            const updatedMessage = yield message_model_1.Message.findById(id);
-            response.status(200).json(updatedMessage);
-        }
-    }
-    catch (error) {
-        if (error instanceof mongoose_1.MongooseError) {
-            response.status(500).json({ message: error.message });
-        }
-        else {
-            response.status(500).json(error);
-        }
-    }
-});
-exports.updateMessageById = updateMessageById;
 const deleteMessageById = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = request.params;
@@ -101,3 +79,45 @@ const deleteMessageById = (request, response) => __awaiter(void 0, void 0, void 
     }
 });
 exports.deleteMessageById = deleteMessageById;
+const markAsRead = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = request.params;
+        const message = yield message_model_1.Message.findByIdAndUpdate(id, { read: true });
+        if (!message) {
+            response.status(404).json({ message: "Message not found" });
+        }
+        else {
+            response.status(200).json(message);
+        }
+    }
+    catch (error) {
+        if (error instanceof mongoose_1.MongooseError) {
+            response.status(500).json({ message: error.message });
+        }
+        else {
+            response.status(500).json(error);
+        }
+    }
+});
+exports.markAsRead = markAsRead;
+const markAsUnread = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = request.params;
+        const message = yield message_model_1.Message.findByIdAndUpdate(id, { read: false });
+        if (!message) {
+            response.status(404).json({ message: "Message not found" });
+        }
+        else {
+            response.status(200).json(message);
+        }
+    }
+    catch (error) {
+        if (error instanceof mongoose_1.MongooseError) {
+            response.status(500).json({ message: error.message });
+        }
+        else {
+            response.status(500).json(error);
+        }
+    }
+});
+exports.markAsUnread = markAsUnread;
