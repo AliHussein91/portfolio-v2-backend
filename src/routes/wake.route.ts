@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 const router = Router()
 
-router.get('/wake', (req, res) => {
+router.get('/', (req, res) => {
     res.send('Awake!')
 })
 
