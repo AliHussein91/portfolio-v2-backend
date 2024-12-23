@@ -5,6 +5,7 @@ import { SkillsRouter } from './skills.route'
 import { AuthRouter } from './auth.route'
 import { UsersRouter } from './users.route'
 import { UploadsRouter } from './uploads.route'
+import { WakeRouter } from './wake.route'
 
 const router = Router()
 
@@ -14,6 +15,7 @@ router.use('/projects', ProjectsRouter)
 router.use('/messages', MessagesRouter)
 router.use('/skills', SkillsRouter)
 router.use('/uploads', UploadsRouter)
+router.use('/wake-up', WakeRouter)
 
 
 export const IndexRouter = router;
