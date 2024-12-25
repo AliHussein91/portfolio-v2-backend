@@ -24,6 +24,8 @@ app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(passport.initialize());
+// Serve public files
+app.use(express.static('public'));
 
 // Routes
 app.use('/api', IndexRouter)

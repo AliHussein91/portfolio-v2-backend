@@ -24,6 +24,8 @@ app.use((0, cors_1.default)(corsOptions));
 app.use((0, helmet_1.default)());
 app.use(body_parser_1.default.json());
 app.use(jwt_config_1.default.initialize());
+// Serve public files
+app.use(express_1.default.static('public'));
 // Routes
 app.use('/api', index_route_1.IndexRouter);
 // Database & API Connection
