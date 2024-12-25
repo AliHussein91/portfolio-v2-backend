@@ -23,7 +23,7 @@ export const uploadImage = async (request: Request, res: Response, next: NextFun
 
                 await imageMetadata.save();
                 // get the image path and send it back to the client
-                const fileUrl = path.join(__dirname, `../public/imgs/${request.file.filename}`);
+                const fileUrl = path.join(__dirname, `../public/images/${request.file.filename}`);
                 res.json({ fileUrl });
             } catch (error) {
                 next(error);
