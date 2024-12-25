@@ -8,11 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getImages = exports.markInUse = exports.uploadImage = void 0;
 const imagesMetaData_model_1 = require("../model/imagesMetaData.model");
 const mongoose_1 = require("mongoose");
 const upload_1 = require("../utils/upload");
+const path_1 = __importDefault(require("path"));
 const uploadImage = (request, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     upload_1.upload.single('image')(request, res, (error) => __awaiter(void 0, void 0, void 0, function* () {
         if (error) {
@@ -27,7 +31,8 @@ const uploadImage = (request, res, next) => __awaiter(void 0, void 0, void 0, fu
                 isInUse: true
             });
             yield imageMetadata.save();
-            const fileUrl = `http://localhost:3000/public/imgs/${request.file.filename}`;
+            // get the image path and send it back to the client
+            const fileUrl = path_1.default.join(__dirname, `/public/imgs/${request.file.filename}`);
             res.json({ fileUrl });
         }
         catch (error) {
