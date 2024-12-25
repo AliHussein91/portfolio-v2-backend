@@ -24,8 +24,9 @@ app.use((0, cors_1.default)(corsOptions));
 app.use((0, helmet_1.default)());
 app.use(body_parser_1.default.json());
 app.use(jwt_config_1.default.initialize());
-// Serve public files
-app.use(express_1.default.static('public'));
+``;
+// Serve public uploaded files like images in the images folder in public folder
+app.use(express_1.default.static('dist/public')); // http://localhost:8080/public/imgs/imagename.jpg
 // Routes
 app.use('/api', index_route_1.IndexRouter);
 // Database & API Connection

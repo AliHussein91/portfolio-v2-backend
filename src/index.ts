@@ -19,13 +19,15 @@ let corsOptions = {
     optionsSuccessStatus: 200 // Some legacy browsers choke on 204
 };
 
+
 // Middleware
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(bodyParser.json());
-app.use(passport.initialize());
-// Serve public files
-app.use(express.static('public'));
+app.use(passport.initialize());``
+
+// Serve public uploaded files like images in the images folder in public folder
+app.use(express.static('dist/public')); // http://localhost:8080/public/imgs/imagename.jpg
 
 // Routes
 app.use('/api', IndexRouter)
