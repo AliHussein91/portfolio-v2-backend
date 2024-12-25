@@ -32,7 +32,7 @@ const uploadImage = (request, res, next) => __awaiter(void 0, void 0, void 0, fu
             });
             yield imageMetadata.save();
             // get the image path and send it back to the client
-            const fileUrl = path_1.default.join(__dirname, `../public/images/${request.file.filename}`);
+            const fileUrl = path_1.default.join('https://myportfolio-ewtufvor.b4a.run/', `images/${request.file.filename}`);
             res.json({ fileUrl });
         }
         catch (error) {
