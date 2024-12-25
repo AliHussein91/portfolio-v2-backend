@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express-serve-static-core";
 import { ImageMetadata } from "../model/imagesMetaData.model";
 import { MongooseError } from "mongoose";
 import { upload } from '../utils/upload';
+import path from 'path';
 
 export const uploadImage = async (request: Request, res: Response, next: NextFunction) => {
     upload.single('image')
@@ -21,8 +22,8 @@ export const uploadImage = async (request: Request, res: Response, next: NextFun
                 });
 
                 await imageMetadata.save();
-
-                const fileUrl = `http://localhost:3000/public/imgs/${request.file.filename}`;
+                // get the image path and send it back to the client
+                const fileUrl = path.join(__dirname, `/public/imgs/${request.file.filename}`);
                 res.json({ fileUrl });
             } catch (error) {
                 next(error);
