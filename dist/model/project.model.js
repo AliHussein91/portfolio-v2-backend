@@ -21,6 +21,11 @@ const projectSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     image: {
         type: String,
         required: true
