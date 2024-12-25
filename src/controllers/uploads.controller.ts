@@ -64,3 +64,23 @@ export const getImages = async (request: Request, response: Response) => {
         }
     }
 }
+
+export const MarkNotInUse = async (request: Request, response: Response) => {
+    const { filename } = request.params;
+    try {
+        const image = await ImageMetadata.findOne({ filename });
+        if (image) {
+            image.isInUse = false;
+            await image.save();
+            response.send('Image marked as not in use');
+        } else {
+            response.status(404).json({ "message": 'Image not found' });
+        }
+    } catch (error) {
+        if (error instanceof MongooseError) {
+            response.status(500).json({ message: error.message })
+        } else {
+            response.status(500).json(error)
+        }
+    }
+}

@@ -6,6 +6,7 @@ import { IndexRouter } from './routes/index.route'
 import dotenv from 'dotenv'
 import bodyParser from 'body-parser';
 import passport from './config/jwt.config';
+import { cleanupJob } from './utils/uploadsCleanUp';
 
 dotenv.config()
 const app = express();
@@ -31,6 +32,9 @@ app.use(express.static('dist/public')); // http://localhost:8080/public/imgs/ima
 
 // Routes
 app.use('/api', IndexRouter)
+
+// Cleanup job
+cleanupJob();
 
 // Database & API Connection
 mongoose.connect(DATABASE_URL)

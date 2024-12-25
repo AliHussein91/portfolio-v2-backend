@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUnusedImages = void 0;
+exports.cleanupJob = exports.deleteUnusedImages = void 0;
 const path_1 = __importDefault(require("path"));
 const imagesMetaData_model_1 = require("../model/imagesMetaData.model");
 const fs_1 = __importDefault(require("fs"));
@@ -30,3 +30,9 @@ const deleteUnusedImages = () => __awaiter(void 0, void 0, void 0, function* () 
     }));
 });
 exports.deleteUnusedImages = deleteUnusedImages;
+// Run cleanup job every 30 minutes
+const cleanupJob = () => {
+    const intervalId = setInterval(exports.deleteUnusedImages, 30 * 60 * 1000);
+    return () => clearInterval(intervalId);
+};
+exports.cleanupJob = cleanupJob;

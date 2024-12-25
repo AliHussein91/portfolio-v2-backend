@@ -11,6 +11,7 @@ const index_route_1 = require("./routes/index.route");
 const dotenv_1 = __importDefault(require("dotenv"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const jwt_config_1 = __importDefault(require("./config/jwt.config"));
+const uploadsCleanUp_1 = require("./utils/uploadsCleanUp");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -29,6 +30,8 @@ app.use(jwt_config_1.default.initialize());
 app.use(express_1.default.static('dist/public')); // http://localhost:8080/public/imgs/imagename.jpg
 // Routes
 app.use('/api', index_route_1.IndexRouter);
+// Cleanup job
+(0, uploadsCleanUp_1.cleanupJob)();
 // Database & API Connection
 mongoose_1.default.connect(DATABASE_URL)
     .then(() => {

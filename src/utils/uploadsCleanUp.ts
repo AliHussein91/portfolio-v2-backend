@@ -1,6 +1,7 @@
 import path from 'path';
 import { ImageMetadata } from '../model/imagesMetaData.model';
 import fs from 'fs';
+import { clear } from 'console';
 
 const uploadDir = path.join(__dirname, 'public', 'imgs');
 
@@ -17,4 +18,11 @@ export const deleteUnusedImages = async () => {
         console.log(`Deleted unused image: ${image.filename}`);
     });
 };
+
+// Run cleanup job every 30 minutes
+export const cleanupJob = () => {
+    const intervalId = setInterval(deleteUnusedImages, 30 * 60 * 1000);
+    return () => clearInterval(intervalId);
+}
+
 

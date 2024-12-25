@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getImages = exports.markInUse = exports.uploadImage = void 0;
+exports.MarkNotInUse = exports.getImages = exports.markInUse = exports.uploadImage = void 0;
 const imagesMetaData_model_1 = require("../model/imagesMetaData.model");
 const mongoose_1 = require("mongoose");
 const upload_1 = require("../utils/upload");
@@ -79,3 +79,26 @@ const getImages = (request, response) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.getImages = getImages;
+const MarkNotInUse = (request, response) => __awaiter(void 0, void 0, void 0, function* () {
+    const { filename } = request.params;
+    try {
+        const image = yield imagesMetaData_model_1.ImageMetadata.findOne({ filename });
+        if (image) {
+            image.isInUse = false;
+            yield image.save();
+            response.send('Image marked as not in use');
+        }
+        else {
+            response.status(404).json({ "message": 'Image not found' });
+        }
+    }
+    catch (error) {
+        if (error instanceof mongoose_1.MongooseError) {
+            response.status(500).json({ message: error.message });
+        }
+        else {
+            response.status(500).json(error);
+        }
+    }
+});
+exports.MarkNotInUse = MarkNotInUse;
