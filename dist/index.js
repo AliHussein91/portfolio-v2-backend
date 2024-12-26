@@ -27,7 +27,7 @@ app.use(body_parser_1.default.json());
 app.use(jwt_config_1.default.initialize());
 ``;
 // Serve public uploaded files like images in the images folder in public folder
-app.use('/public', express_1.default.static('dist/public', {
+app.use(express_1.default.static('dist/public', {
     setHeaders: (res) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.removeHeader('Cross-Origin-Resource-Policy');
