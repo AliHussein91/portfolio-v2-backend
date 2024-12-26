@@ -28,7 +28,12 @@ app.use(bodyParser.json());
 app.use(passport.initialize());``
 
 // Serve public uploaded files like images in the images folder in public folder
-app.use(express.static('dist/public')); // http://localhost:8080/public/imgs/imagename.jpg
+app.use('/public', express.static('dist/public', {
+	setHeaders: (res) => {
+		res.setHeader('Access-Control-Allow-Origin', '*');
+		res.removeHeader('Cross-Origin-Resource-Policy');
+	}
+})); // http://localhost:8080/public/imgs/imagename.jpg
 
 // Routes
 app.use('/api', IndexRouter)

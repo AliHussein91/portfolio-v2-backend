@@ -27,7 +27,12 @@ app.use(body_parser_1.default.json());
 app.use(jwt_config_1.default.initialize());
 ``;
 // Serve public uploaded files like images in the images folder in public folder
-app.use(express_1.default.static('dist/public')); // http://localhost:8080/public/imgs/imagename.jpg
+app.use('/public', express_1.default.static('dist/public', {
+    setHeaders: (res) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.removeHeader('Cross-Origin-Resource-Policy');
+    }
+})); // http://localhost:8080/public/imgs/imagename.jpg
 // Routes
 app.use('/api', index_route_1.IndexRouter);
 // Cleanup job
