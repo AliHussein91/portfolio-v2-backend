@@ -14,7 +14,7 @@ dotenv.config();
 const app = express();
 
 const DATABASE_URL = process.env.DATABASE_URL!;
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5000;
 
 let corsOptions = {
 	origin: true, // Or be more specific for production, e.g., 'http://localhost:4200'
