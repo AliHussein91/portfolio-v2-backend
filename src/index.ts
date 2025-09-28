@@ -20,7 +20,7 @@ let corsOptions = {
 	origin: true, // Or be more specific for production, e.g., 'http://localhost:4200'
 	optionsSuccessStatus: 200
 };
-
+	
 // --- CORRECT MIDDLEWARE ORDER ---
 
 // 1. Enable CORS for all requests
@@ -41,6 +41,7 @@ app.use(passport.initialize());
 // This makes the 'public' folder accessible via URL.
 // For example, a file at 'dist/public/images/foo.png' will be available at '/images/foo.png'
 app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
 
 // 6. Define API routes. Multer will now correctly process the upload route within IndexRouter.
 app.use('/api', IndexRouter);

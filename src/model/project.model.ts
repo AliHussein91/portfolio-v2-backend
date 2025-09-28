@@ -25,6 +25,11 @@ const projectSchema = new Schema({
         required: true,
         default: true
     },
+    featured: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     image: {
         type: String,
         required: true

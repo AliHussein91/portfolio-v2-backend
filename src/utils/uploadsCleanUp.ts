@@ -1,9 +1,8 @@
 import path from 'path';
 import { ImageMetadata } from '../model/imagesMetaData.model';
 import fs from 'fs';
-import { clear } from 'console';
 
-const uploadDir = path.join(__dirname, 'public', 'imgs');
+const uploadDir = path.join(__dirname, 'public', 'images');
 
 // Cleanup job
 export const deleteUnusedImages = async () => {
