@@ -17,27 +17,27 @@ const DATABASE_URL = process.env.DATABASE_URL!;
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
-    // Production domains
-    'https://meetali.online',
-    'https://dashboard.meetali.online',
+	// Production domains
+	'https://meetali.online',
+	'https://dashboard.meetali.online',
 
-    // Development origins
-    'http://localhost:4200', // Default for Angular CLI
-    'http://localhost:3000', // Common for other frameworks like Next.js
+	// Development origins
+	'http://localhost:4200', // Default for Angular CLI
+	'http://localhost:3000', // Common for other frameworks like Next.js
 ];
 
 const corsOptions = {
-    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        // Allow requests with no origin (e.g., Postman, curl, mobile apps)
-        // or if the origin is in our list of allowed origins.
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            // Otherwise, reject the request.
-            callback(new Error('This origin is not allowed by CORS'));
-        }
-    },
-    optionsSuccessStatus: 200, // For legacy browser support
+	origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+		// Allow requests with no origin (e.g., Postman, curl, mobile apps)
+		// or if the origin is in our list of allowed origins.
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			// Otherwise, reject the request.
+			callback(new Error('This origin is not allowed by CORS'));
+		}
+	},
+	optionsSuccessStatus: 200, // For legacy browser support
 };
 
 // --- CORRECT MIDDLEWARE ORDER ---
@@ -47,20 +47,20 @@ app.use(cors(corsOptions));
 
 // 2. Set security-related HTTP headers
 app.use(
-    helmet({
-        contentSecurityPolicy: {
-            directives: {
-                // Use the default directives provided by Helmet
-                ...helmet.contentSecurityPolicy.getDefaultDirectives(), 
-                
-                // Override the imgSrc directive to allow your domain
-                "img-src": ["'self'", "data:", "your-image-domain.com"], 
-            },
-        },
-        // This might also be needed if you still have issues with images
-        // not loading, as it relaxes another cross-origin policy.
-        crossOriginResourcePolicy: { policy: "cross-origin" },
-    })
+	helmet({
+		contentSecurityPolicy: {
+			directives: {
+				// Use the default directives provided by Helmet
+				...helmet.contentSecurityPolicy.getDefaultDirectives(),
+
+				// Override the imgSrc directive to allow your domain
+				"img-src": ["'self'", "data:", "your-image-domain.com"],
+			},
+		},
+		// This might also be needed if you still have issues with images
+		// not loading, as it relaxes another cross-origin policy.
+		crossOriginResourcePolicy: { policy: "cross-origin" },
+	})
 );
 
 // 3. Use modern body parsers. These will handle JSON and URL-encoded
@@ -74,8 +74,8 @@ app.use(passport.initialize());
 // 5. Serve static files (e.g., uploaded images)
 // This makes the 'public' folder accessible via URL.
 // For example, a file at 'dist/public/images/foo.png' will be available at '/images/foo.png'
-app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/images', express.static(path.join(__dirname, '..', 'public', 'images')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'public', 'images')));
 
 // 6. Define API routes. Multer will now correctly process the upload route within IndexRouter.
 app.use('/api', IndexRouter);
