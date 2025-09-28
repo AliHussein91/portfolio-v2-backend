@@ -17,40 +17,27 @@ const DATABASE_URL = process.env.DATABASE_URL!;
 const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
-	'https://meetali.online', // Production domain
-	'https://dashboard.meetali.online', // Dashboard domain
-];
+    // Production domains
+    'https://meetali.online',
+    'https://dashboard.meetali.online',
 
-const allowedDevIps = [
-	'41.38.70.22', // Your dev machine IP
-	// Add more IPs if needed
+    // Development origins
+    'http://localhost:4200', // Default for Angular CLI
+    'http://localhost:3000', // Common for other frameworks like Next.js
 ];
 
 const corsOptions = {
-	origin: (origin: string | undefined, callback: Function) => {
-		// Allow requests with no origin (like mobile apps, curl, Postman)
-		if (!origin) return callback(null, true);
-
-		// Allow requests from allowed origins
-		if (allowedOrigins.includes(origin)) return callback(null, true);
-
-		// Allow requests from dev IPs (for local development)
-		try {
-			const url = new URL(origin);
-			if (
-				url.hostname &&
-				allowedDevIps.includes(url.hostname)
-			) {
-				return callback(null, true);
-			}
-		} catch (e) {
-			// If origin is not a valid URL, reject
-		}
-
-		// Otherwise, reject
-		callback(new Error('Not allowed by CORS'));
-	},
-	optionsSuccessStatus: 200,
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        // Allow requests with no origin (e.g., Postman, curl, mobile apps)
+        // or if the origin is in our list of allowed origins.
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            // Otherwise, reject the request.
+            callback(new Error('This origin is not allowed by CORS'));
+        }
+    },
+    optionsSuccessStatus: 200, // For legacy browser support
 };
 
 // --- CORRECT MIDDLEWARE ORDER ---
