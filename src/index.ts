@@ -16,11 +16,27 @@ const app = express();
 const DATABASE_URL = process.env.DATABASE_URL!;
 const PORT = process.env.PORT || 5000;
 
+const allowedOrigins = [
+	'https://meetali.online', // Production domain
+];
+
+const allowedDevIp = '41.38.70.22';
+
 let corsOptions = {
-	origin: true, // Or be more specific for production, e.g., 'http://localhost:4200'
+	origin: (origin: string | undefined, callback: Function) => {
+		if (
+			!origin ||
+			allowedOrigins.includes(origin) ||
+			(origin && origin.startsWith(`http://${allowedDevIp}`))
+		) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
 	optionsSuccessStatus: 200
 };
-	
+
 // --- CORRECT MIDDLEWARE ORDER ---
 
 // 1. Enable CORS for all requests
