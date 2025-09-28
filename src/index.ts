@@ -18,23 +18,39 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
 	'https://meetali.online', // Production domain
+	'https://dashboard.meetali.online', // Dashboard domain
 ];
 
-const allowedDevIp = '41.38.70.22';
+const allowedDevIps = [
+	'41.38.70.22', // Your dev machine IP
+	// Add more IPs if needed
+];
 
-let corsOptions = {
+const corsOptions = {
 	origin: (origin: string | undefined, callback: Function) => {
-		if (
-			!origin ||
-			allowedOrigins.includes(origin) ||
-			(origin && origin.startsWith(`http://${allowedDevIp}`))
-		) {
-			callback(null, true);
-		} else {
-			callback(new Error('Not allowed by CORS'));
+		// Allow requests with no origin (like mobile apps, curl, Postman)
+		if (!origin) return callback(null, true);
+
+		// Allow requests from allowed origins
+		if (allowedOrigins.includes(origin)) return callback(null, true);
+
+		// Allow requests from dev IPs (for local development)
+		try {
+			const url = new URL(origin);
+			if (
+				url.hostname &&
+				allowedDevIps.includes(url.hostname)
+			) {
+				return callback(null, true);
+			}
+		} catch (e) {
+			// If origin is not a valid URL, reject
 		}
+
+		// Otherwise, reject
+		callback(new Error('Not allowed by CORS'));
 	},
-	optionsSuccessStatus: 200
+	optionsSuccessStatus: 200,
 };
 
 // --- CORRECT MIDDLEWARE ORDER ---
