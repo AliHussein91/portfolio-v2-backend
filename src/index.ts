@@ -46,7 +46,22 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // 2. Set security-related HTTP headers
-app.use(helmet());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                // Use the default directives provided by Helmet
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(), 
+                
+                // Override the imgSrc directive to allow your domain
+                "img-src": ["'self'", "data:", "your-image-domain.com"], 
+            },
+        },
+        // This might also be needed if you still have issues with images
+        // not loading, as it relaxes another cross-origin policy.
+        crossOriginResourcePolicy: { policy: "cross-origin" },
+    })
+);
 
 // 3. Use modern body parsers. These will handle JSON and URL-encoded
 //    bodies for routes that need them, but will be skipped for multipart/form-data.
